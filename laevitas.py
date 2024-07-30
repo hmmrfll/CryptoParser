@@ -39,8 +39,10 @@ if not client.is_user_authorized():
     client.sign_in(phone, input('Enter the code: '))
 
 def parse_message(message):
+    current_time_msk = (datetime.utcnow() + timedelta(hours=3)).strftime('%Y-%m-%d %H:%M:%S')
     return {
-        'Message': message
+        'Message': message,
+        'Time (MSK)': current_time_msk
     }
 
 def adjust_excel_formatting(filename):
@@ -129,7 +131,7 @@ while True:
 
                     # Проверка наличия файла и создание нового при отсутствии
                     if not os.path.exists(excel_file):
-                        df = pd.DataFrame(columns=['Message'])
+                        df = pd.DataFrame(columns=['Message', 'Time (MSK)'])
                     else:
                         df = pd.read_excel(excel_file)  # Загружаем существующий файл, если он уже есть
 
